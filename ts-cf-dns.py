@@ -20,8 +20,7 @@ def update_cloudflare_dns(hostname, ipv6):
         "Authorization": f"Bearer {settings.CLOUDFLARE_API_KEY}",
         "Content-Type": "application/json",
     }
-    fqdn = f"{hostname}.{settings.DNS_DOMAIN}"
-    params = {"type": "AAAA", "name": fqdn}
+    params = {"type": "AAAA", "name": hostname}
 
     try:
         get_response = requests.get(api_endpoint, headers=headers, params=params)

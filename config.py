@@ -8,10 +8,10 @@ class Settings(BaseSettings):
 
     CLOUDFLARE_API_KEY: str
     CLOUDFLARE_ZONE_ID: str
-    DNS_DOMAIN: str
 
     class Config:
         """Define our settings file."""
+
         env_file = ".env"
 
 
