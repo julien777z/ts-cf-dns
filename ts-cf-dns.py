@@ -15,6 +15,8 @@ logging.basicConfig(level=logging.INFO)
 def update_cloudflare_dns(hostname, ipv6):
     """Update Cloudflare DNS record."""
 
+    print(f"Updating Cloudflare DNS record for {hostname} with IP {ipv6}")
+
     api_endpoint = f"https://api.cloudflare.com/client/v4/zones/{settings.CLOUDFLARE_ZONE_ID}/dns_records"
     headers = {
         "Authorization": f"Bearer {settings.CLOUDFLARE_API_KEY}",
@@ -84,8 +86,13 @@ def update_cloudflare_dns(hostname, ipv6):
             logger.info("Cloudflare API reported failure: %s", result_data)
             return False
 
-    except requests.exceptions.RequestException as e:
-        logger.info("ERROR: Failed Cloudflare request for %s: %s", hostname, e)
+    except requests.exceptions.RequestException:
+        logger.error(
+            "ERROR: Failed Cloudflare request for %s=%s; %s",
+            hostname,
+            ipv6,
+            response.text,
+        )
         return False
 
 
