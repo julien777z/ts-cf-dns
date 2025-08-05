@@ -30,7 +30,7 @@ Set the following variables in a file called .env at the root of this directory 
 
 `TS_AUTH_KEY=api_key` Your Tailscale API key. - Required
 
-`TAILSCALE_TAILNET=fun-name.ts.net` Your Tailscale tailnet name. - Required
+`TS_TAILNET=fun-name.ts.net` Your Tailscale tailnet name. - Required
 
 `TAILSCALE_IGNORE_HOSTNAMES=host1,host2,host3` A comma separated list of tailnet devices you want to ignore - Optional (NOTE: no spaces)
 

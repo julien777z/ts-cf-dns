@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 
 def get_tailscale_ips():
     """Grab IPv6 address for each device on the Tailnet."""
-    url = f"https://api.tailscale.com/api/v2/tailnet/{settings.TAILSCALE_TAILNET}/devices"
+    url = f"https://api.tailscale.com/api/v2/tailnet/{settings.TS_TAILNET}/devices"
     headers = {
         "Authorization": f"Bearer {settings.TS_AUTH_KEY}",
         "Content-Type": "application/json"

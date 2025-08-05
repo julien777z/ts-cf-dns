@@ -8,7 +8,7 @@ from pydantic import field_validator, Field
 class Settings(BaseSettings):
     """Define the settings we need."""
     TS_AUTH_KEY: str
-    TAILSCALE_TAILNET: str
+    TS_TAILNET: str
     TAILSCALE_IGNORE_HOSTNAMES: str | None = None
     CLOUDFLARE_API_KEY: str
     CLOUDFLARE_ZONE_ID: str
