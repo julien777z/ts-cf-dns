@@ -94,11 +94,11 @@ def main():
 
     parser = argparse.ArgumentParser(description="Tailscale to Cloudflare DNS Updater")
     parser.add_argument(
-        "-h", "--hostname", type=str, help="Hostname to update. Format: hostname=ipv6"
+        "-d", "--domain", type=str, help="Domain to update. Format: domain=ipv6"
     )
     args = parser.parse_args()
 
-    hostname, ipv6 = args.hostname.split("=")
+    hostname, ipv6 = args.domain.split("=")
 
     update_cloudflare_dns(hostname, ipv6)
 
