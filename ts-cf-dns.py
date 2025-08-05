@@ -16,7 +16,7 @@ def get_tailscale_ips():
     """Grab IPv6 address for each device on the Tailnet."""
     url = f"https://api.tailscale.com/api/v2/tailnet/{settings.TAILSCALE_TAILNET}/devices"
     headers = {
-        "Authorization": f"Bearer {settings.TAILSCALE_API_KEY}",
+        "Authorization": f"Bearer {settings.TS_AUTH_KEY}",
         "Content-Type": "application/json"
     }
     try:
@@ -29,7 +29,7 @@ def get_tailscale_ips():
     except json.JSONDecodeError as e:
         logger.error("Failed to parse JSON response from Tailscale API: %s", e)
         return {}
-    
+
     ipv6_addresses = {}
     for device in devices:
         hostname = device.get("hostname")
@@ -125,10 +125,10 @@ def main():
     parser.add_argument("-p", action="store_true", help="Format output as Pi-hole local.list format")
     parser.add_argument("-o", type=str, help="Output to a named file")
     args = parser.parse_args()
-    
+
     ipv6_records = get_tailscale_ips()
     output = ""
-    
+
     if args.c:
         for hostname, ipv6 in ipv6_records.items():
             update_cloudflare_dns(hostname, ipv6)
@@ -137,7 +137,7 @@ def main():
         output = format_bind(ipv6_records)
     elif args.p:
         output = format_pihole(ipv6_records)
-    
+
     if args.o:
         with open(args.o, "w") as f:
             f.write(output)

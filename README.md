@@ -3,9 +3,9 @@
 This Python script retrieves IPv6 addresses from the Tailscale API and updates Cloudflare DNS records accordingly. It also includes options to format the output as a BIND zone file or a Pi-hole local.list format.
 
 It should be noted that putting ULA (or any private addressing) into public DNS is considered bad form, the
-downsides of which are well traveled, well studied, and generally it's just stupid. that said, it's pretty useful in some cases, especially for internal split-dns. 
-This only supports IPv6 because there is no reason to support legacy IPv4 when everything on the tailnet has a valid IPv6 address, and based on 
-[source address selection rules](https://datatracker.ietf.org/doc/html/rfc6724) when dual-stacked the IPv6 ULA will never be used 
+downsides of which are well traveled, well studied, and generally it's just stupid. that said, it's pretty useful in some cases, especially for internal split-dns.
+This only supports IPv6 because there is no reason to support legacy IPv4 when everything on the tailnet has a valid IPv6 address, and based on
+[source address selection rules](https://datatracker.ietf.org/doc/html/rfc6724) when dual-stacked the IPv6 ULA will never be used
 without [rfc6724-update](https://datatracker.ietf.org/doc/draft-ietf-6man-rfc6724-update/).
 
 ## Features
@@ -17,7 +17,7 @@ without [rfc6724-update](https://datatracker.ietf.org/doc/draft-ietf-6man-rfc672
 
 ## Requirements
 
-* Python 3.x 
+* Python 3.x
 * A [TailScale](https://www.tailscale.com) account
 * A Cloudflare account (if using Cloudflare)
 * Some amount of free time and desire to do wacky stuff with your DNS
@@ -28,7 +28,7 @@ without [rfc6724-update](https://datatracker.ietf.org/doc/draft-ietf-6man-rfc672
 
 Set the following variables in a file called .env at the root of this directory (NOTE: No need for quotes around the values in .env):
 
-`TAILSCALE_API_KEY=api_key` Your Tailscale API key. - Required
+`TS_AUTH_KEY=api_key` Your Tailscale API key. - Required
 
 `TAILSCALE_TAILNET=fun-name.ts.net` Your Tailscale tailnet name. - Required
 
