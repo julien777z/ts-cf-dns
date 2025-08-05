@@ -12,10 +12,10 @@ logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
 
 
-def update_cloudflare_dns(hostname, ipv6):
+def update_cloudflare_dns(hostname, ipv4):
     """Update Cloudflare DNS record."""
 
-    print(f"Updating Cloudflare DNS record for {hostname} with IP {ipv6}")
+    print(f"Updating Cloudflare DNS record for {hostname} with IP {ipv4}")
 
     api_endpoint = f"https://api.cloudflare.com/client/v4/zones/{settings.CLOUDFLARE_ZONE_ID}/dns_records"
     headers = {
@@ -31,18 +31,18 @@ def update_cloudflare_dns(hostname, ipv6):
 
         existing_records = data.get("result", [])
         record_id = None
-        existing_ipv6 = None
+        existing_ipv4 = None
 
         if existing_records:
             record = existing_records[0]
             record_id = record.get("id")
-            existing_ipv6 = record.get("content")
+            existing_ipv4 = record.get("content")
             if record_id:
                 logger.info(
                     "Found existing record for %s with ID %s and IP %s",
                     hostname,
                     record_id,
-                    existing_ipv6,
+                    existing_ipv4,
                 )
             else:
                 logger.warning(
@@ -53,27 +53,27 @@ def update_cloudflare_dns(hostname, ipv6):
                 record_id = None
 
         payload = {
-            "type": "AAAA",
+            "type": "A",
             "name": hostname,
-            "content": ipv6,
+            "content": ipv4,
             "ttl": 60,
             "proxied": False,
         }
 
         if record_id:
-            if existing_ipv6 == ipv6:
+            if existing_ipv4 == ipv4:
                 logger.info(
-                    "IP for %s already correct %s. No update needed.", hostname, ipv6
+                    "IP for %s already correct %s. No update needed.", hostname, ipv4
                 )
                 return True
             else:
                 logger.info(
-                    "Updating record %s for %s to %s", record_id, hostname, ipv6
+                    "Updating record %s for %s to %s", record_id, hostname, ipv4
                 )
                 update_url = f"{api_endpoint}/{record_id}"
                 response = requests.put(update_url, headers=headers, json=payload)
         else:
-            logger.info("Creating new record for %s with IP %s", hostname, ipv6)
+            logger.info("Creating new record for %s with IP %s", hostname, ipv4)
             response = requests.post(api_endpoint, headers=headers, json=payload)
 
         response.raise_for_status()
@@ -90,7 +90,7 @@ def update_cloudflare_dns(hostname, ipv6):
         logger.error(
             "ERROR: Failed Cloudflare request for %s=%s; %s",
             hostname,
-            ipv6,
+            ipv4,
             response.text,
         )
         return False
@@ -101,13 +101,13 @@ def main():
 
     parser = argparse.ArgumentParser(description="Tailscale to Cloudflare DNS Updater")
     parser.add_argument(
-        "-d", "--domain", type=str, help="Domain to update. Format: domain=ipv6"
+        "-d", "--domain", type=str, help="Domain to update. Format: domain=ipv4"
     )
     args = parser.parse_args()
 
-    hostname, ipv6 = args.domain.split("=")
+    hostname, ipv4 = args.domain.split("=")
 
-    update_cloudflare_dns(hostname, ipv6)
+    update_cloudflare_dns(hostname, ipv4)
 
 
 if __name__ == "__main__":
