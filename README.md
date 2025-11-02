@@ -30,15 +30,11 @@ Set the following variables in a file called .env at the root of this directory 
 
 `TS_AUTH_KEY=api_key` Your Tailscale API key. - Required
 
-`TS_TAILNET=fun-name.ts.net` Your Tailscale tailnet name. - Required
-
 `TAILSCALE_IGNORE_HOSTNAMES=host1,host2,host3` A comma separated list of tailnet devices you want to ignore - Optional (NOTE: no spaces)
 
 `CLOUDFLARE_API_KEY=api_key` Your Cloudflare API key. - Required if using cloudflare
 
 `CLOUDFLARE_ZONE_ID=zone_id` Your Cloudflare zone ID. - Required if using cloudflare
-
-`DNS_DOMAIN=example.com` Your domain name. - Required
 
 Make sure to use an [Account API Token](https://developers.cloudflare.com/fundamentals/api/get-started/account-owned-tokens/) from Cloudflare if you want to push to Cloudflare.
 
